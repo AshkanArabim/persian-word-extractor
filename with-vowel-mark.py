@@ -9,8 +9,9 @@ splitted = src.split()
 wordset = set(splitted)
 rm = []
 for x in wordset:
-    if len(x) == 1:
+    if len(x) == 1 :
         rm.append(x)
+rm = set(rm)
 for x in rm:
     wordset.remove(x)
 
@@ -26,5 +27,5 @@ out.sort(reverse= True ,key= num)
 
 n = 0
 for x in out:
-    output.write(str(list(out)[n][0]) + "\n")
+    output.write("\"" + str(list(out)[n][0]) + "\"" + "," + "\n")
     n += 1
