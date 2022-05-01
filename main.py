@@ -87,7 +87,7 @@ results = open('output.txt','w', encoding='UTF-8')
 def asker():
     accentAnswer = input('Include accents? (y/n) ')
     if accentAnswer == 'y':
-        srcAnswer = input('Choose location type: \n  online (from links in htmlsrc.txt) \n  offline (source.txt file in root directory) ')
+        srcAnswer = input('Choose source origin: \n  online (from links in htmlsrc.txt) \n  offline (source.txt file in root directory) ')
         if srcAnswer == 'online':
             htmlFinder()
             results.write(withAccent(txtSrc()))
@@ -97,7 +97,7 @@ def asker():
             print('That is not a valid option. Abort.')
             exit()
     elif accentAnswer == 'n':
-        srcAnswer = input('Choose location type: \n  online (from links in htmlsrc.txt) \n  offline (source.txt file in root directory) ')
+        srcAnswer = input('Choose source origin: \n  online (from links in htmlsrc.txt) \n  offline (source.txt file in root directory) ')
         if srcAnswer == 'online':
             htmlFinder()
             results.write(noAccent(txtSrc()))
