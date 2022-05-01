@@ -1,3 +1,6 @@
+from unittest import result
+import requests
+
 def noAccent(src):
     src = src.replace('ك','ک')
     for x in src:
@@ -64,3 +67,41 @@ def withAccent(src):
     for x in out:
         output += (str(list(out)[n][0]) + "\n")
         n += 1
+
+    return output
+
+def htmlFinder():
+    return requests.get("https://fa.wikipedia.org/wiki/%D8%A7%DB%8C%D8%B1%D8%A7%D9%86").content
+
+def offlineSrc():
+    return open('source.txt' , encoding='UTF-8').read()
+
+results = open('output.txt','w', encoding='UTF-8')
+
+def asker():
+    accentAnswer = input('Include accents? y/n')
+    if accentAnswer == 'y':
+        srcAnswer = input('Choose location type: \n 1- online (random wikipedia link) \n 2- offline (source.txt file in root directory)')
+        if srcAnswer == 'online':
+            results.write(withAccent(htmlFinder()))
+        elif srcAnswer == 'offline':
+            results.write(withAccent(offlineSrc()))
+        else:
+            print('That is not a valid option. Abort.')
+            exit()
+    elif accentAnswer == 'n':
+        srcAnswer = input('Choose location type: \n 1- online (random wikipedia link) \n 2- offline (source.txt file in root directory)')
+        if srcAnswer == 'online':
+            results.write(noAccent(htmlFinder()))
+        elif srcAnswer == 'offline':
+            results.write(noAccent(offlineSrc()))
+        else:
+            print('That is not a valid option. Abort.')
+            exit()
+    else:
+        print('Than is not a valid option. Abort.')
+        exit()
+
+
+# if input('Choose an option: \n 1- online (extracts words from random wikipedia link) \n 2- offline (extracts words from source.txt file in root directory)') == 'online':
+#     results.write(noAccent(htmlFinder()))
