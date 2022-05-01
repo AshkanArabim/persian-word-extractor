@@ -76,6 +76,7 @@ def htmlFinder():
     f = open('source.txt','a', encoding='UTF-8')
     for link in url:
         f.write(str(requests.get(link).content))
+    f.close()
 
 def txtSrc():
     return open('source.txt' , encoding='UTF-8').read()
