@@ -79,9 +79,9 @@ def offlineSrc():
 results = open('output.txt','w', encoding='UTF-8')
 
 def asker():
-    accentAnswer = input('Include accents? y/n')
+    accentAnswer = input('Include accents? (y/n) ')
     if accentAnswer == 'y':
-        srcAnswer = input('Choose location type: \n 1- online (random wikipedia link) \n 2- offline (source.txt file in root directory)')
+        srcAnswer = input('Choose location type: \n  online (random wikipedia link) \n  offline (source.txt file in root directory) ')
         if srcAnswer == 'online':
             results.write(withAccent(htmlFinder()))
         elif srcAnswer == 'offline':
@@ -90,7 +90,7 @@ def asker():
             print('That is not a valid option. Abort.')
             exit()
     elif accentAnswer == 'n':
-        srcAnswer = input('Choose location type: \n 1- online (random wikipedia link) \n 2- offline (source.txt file in root directory)')
+        srcAnswer = input('Choose location type: \n  online (random wikipedia link) \n  offline (source.txt file in root directory) ')
         if srcAnswer == 'online':
             results.write(noAccent(htmlFinder()))
         elif srcAnswer == 'offline':
@@ -102,6 +102,6 @@ def asker():
         print('Than is not a valid option. Abort.')
         exit()
 
+    print('Words extracted successfully. Check output.txt')
 
-# if input('Choose an option: \n 1- online (extracts words from random wikipedia link) \n 2- offline (extracts words from source.txt file in root directory)') == 'online':
-#     results.write(noAccent(htmlFinder()))
+asker()
