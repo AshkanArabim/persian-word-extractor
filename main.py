@@ -71,9 +71,13 @@ def withAccent(src):
     return output
 
 def htmlFinder():
-    return requests.get("https://fa.wikipedia.org/wiki/%D8%A7%DB%8C%D8%B1%D8%A7%D9%86").content
+    url = ["https://fa.wikipedia.org/wiki/%D8%A7%DB%8C%D8%B1%D8%A7%D9%86",'https://fa.wikipedia.org/wiki/%D8%AC%D9%85%D9%87%D9%88%D8%B1%DB%8C_%D8%A2%D8%B0%D8%B1%D8%A8%D8%A7%DB%8C%D8%AC%D8%A7%D9%86']
+    open('source.txt','w').close()
+    f = open('source.txt','a', encoding='UTF-8')
+    for link in url:
+        f.write(str(requests.get(link).content))
 
-def offlineSrc():
+def txtSrc():
     return open('source.txt' , encoding='UTF-8').read()
 
 results = open('output.txt','w', encoding='UTF-8')
@@ -83,18 +87,20 @@ def asker():
     if accentAnswer == 'y':
         srcAnswer = input('Choose location type: \n  online (random wikipedia link) \n  offline (source.txt file in root directory) ')
         if srcAnswer == 'online':
-            results.write(withAccent(htmlFinder()))
+            htmlFinder()
+            results.write(withAccent(txtSrc()))
         elif srcAnswer == 'offline':
-            results.write(withAccent(offlineSrc()))
+            results.write(withAccent(txtSrc()))
         else:
             print('That is not a valid option. Abort.')
             exit()
     elif accentAnswer == 'n':
         srcAnswer = input('Choose location type: \n  online (random wikipedia link) \n  offline (source.txt file in root directory) ')
         if srcAnswer == 'online':
-            results.write(noAccent(htmlFinder()))
+            htmlFinder()
+            results.write(noAccent(txtSrc()))
         elif srcAnswer == 'offline':
-            results.write(noAccent(offlineSrc()))
+            results.write(noAccent(txtSrc()))
         else:
             print('That is not a valid option. Abort.')
             exit()
