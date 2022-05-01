@@ -71,7 +71,8 @@ def withAccent(src):
     return output
 
 def htmlFinder():
-    url = ['https://fa.wikipedia.org/wiki/%D8%A7%DB%8C%D8%B1%D8%A7%D9%86', 'https://fa.wikipedia.org/wiki/%D8%AC%D9%85%D9%87%D9%88%D8%B1%DB%8C_%D8%A2%D8%B0%D8%B1%D8%A8%D8%A7%DB%8C%D8%AC%D8%A7%D9%86']
+    htmlsrc = open('htmlsrc.txt','r').read()
+    url = htmlsrc.split()#['https://fa.wikipedia.org/wiki/%D8%A7%DB%8C%D8%B1%D8%A7%D9%86', 'https://fa.wikipedia.org/wiki/%D8%AC%D9%85%D9%87%D9%88%D8%B1%DB%8C_%D8%A2%D8%B0%D8%B1%D8%A8%D8%A7%DB%8C%D8%AC%D8%A7%D9%86']
     open('source.txt','w').close()
     for link in url:
         content = requests.get(link).content
