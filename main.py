@@ -72,12 +72,13 @@ def withAccent(src):
 
 def htmlFinder():
     htmlsrc = open('htmlsrc.txt','r').read()
-    url = htmlsrc.split()#['https://fa.wikipedia.org/wiki/%D8%A7%DB%8C%D8%B1%D8%A7%D9%86', 'https://fa.wikipedia.org/wiki/%D8%AC%D9%85%D9%87%D9%88%D8%B1%DB%8C_%D8%A2%D8%B0%D8%B1%D8%A8%D8%A7%DB%8C%D8%AC%D8%A7%D9%86']
+    url = htmlsrc.split()
     open('source.txt','w').close()
     for link in url:
         content = requests.get(link).content
         with open("source.txt", 'wb') as f:
             f.write(content)
+        print("Added %s to source.txt"%link)
 def txtSrc():
     return open('source.txt' , encoding='UTF-8').read()
 
@@ -86,7 +87,7 @@ results = open('output.txt','w', encoding='UTF-8')
 def asker():
     accentAnswer = input('Include accents? (y/n) ')
     if accentAnswer == 'y':
-        srcAnswer = input('Choose location type: \n  online (random wikipedia link) \n  offline (source.txt file in root directory) ')
+        srcAnswer = input('Choose location type: \n  online (from links in htmlsrc.txt) \n  offline (source.txt file in root directory) ')
         if srcAnswer == 'online':
             htmlFinder()
             results.write(withAccent(txtSrc()))
@@ -96,7 +97,7 @@ def asker():
             print('That is not a valid option. Abort.')
             exit()
     elif accentAnswer == 'n':
-        srcAnswer = input('Choose location type: \n  online (random wikipedia link) \n  offline (source.txt file in root directory) ')
+        srcAnswer = input('Choose location type: \n  online (from links in htmlsrc.txt) \n  offline (source.txt file in root directory) ')
         if srcAnswer == 'online':
             htmlFinder()
             results.write(noAccent(txtSrc()))
