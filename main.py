@@ -79,6 +79,7 @@ def srcWriter():
         with open("source.txt", 'wb') as f:
             f.write(content)
         print("Added %s to source.txt"%link)
+
 def srcReader():
     return open('source.txt' , encoding='UTF-8').read()
 
