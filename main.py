@@ -70,16 +70,16 @@ def withAccent(src):
 
     return output
 
-def htmlFinder():
-    htmlsrc = open('htmlsrc.txt','r').read()
-    url = htmlsrc.split()
+def srcWriter():
+    srclist = open('srclist.txt','r').read()
+    url = srclist.split()
     open('source.txt','w').close()
     for link in url:
         content = requests.get(link).content
         with open("source.txt", 'wb') as f:
             f.write(content)
         print("Added %s to source.txt"%link)
-def txtSrc():
+def srcReader():
     return open('source.txt' , encoding='UTF-8').read()
 
 results = open('output.txt','w', encoding='UTF-8')
@@ -87,22 +87,22 @@ results = open('output.txt','w', encoding='UTF-8')
 def asker():
     accentAnswer = input('Include accents? (y/n) ')
     if accentAnswer == 'y':
-        srcAnswer = input('Choose source origin: \n  online (from links in htmlsrc.txt) \n  offline (source.txt file in root directory) ')
+        srcAnswer = input('Choose source origin: \n  online (from links in srclist.txt) \n  offline (source.txt file in root directory) ')
         if srcAnswer == 'online':
-            htmlFinder()
-            results.write(withAccent(txtSrc()))
+            srcWriter()
+            results.write(withAccent(srcReader()))
         elif srcAnswer == 'offline':
-            results.write(withAccent(txtSrc()))
+            results.write(withAccent(srcReader()))
         else:
             print('That is not a valid option. Abort.')
             exit()
     elif accentAnswer == 'n':
-        srcAnswer = input('Choose source origin: \n  online (from links in htmlsrc.txt) \n  offline (source.txt file in root directory) ')
+        srcAnswer = input('Choose source origin: \n  online (from links in srclist.txt) \n  offline (source.txt file in root directory) ')
         if srcAnswer == 'online':
-            htmlFinder()
-            results.write(noAccent(txtSrc()))
+            srcWriter()
+            results.write(noAccent(srcReader()))
         elif srcAnswer == 'offline':
-            results.write(noAccent(txtSrc()))
+            results.write(noAccent(srcReader()))
         else:
             print('That is not a valid option. Abort.')
             exit()
