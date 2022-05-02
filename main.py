@@ -5,6 +5,8 @@ import requests
 #to do :
 #Add linkFinder(number of links to follow) function
 
+print('-----------\nPersian Word Extractor v.1.4\n-----------')
+
 def timeTaken(t1, t2):
     return str(round(t2 - t1, 2))
 
