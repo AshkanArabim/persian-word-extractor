@@ -73,6 +73,6 @@ def asker():
 
     print('Words extracted successfully. Check output.txt')
     t2 = time()
-    print("Operatin took " + timeTaken(t1, t2) + " seconds to complete")
+    print("Operation took " + timeTaken(t1, t2) + " seconds to complete")
 
 asker()
