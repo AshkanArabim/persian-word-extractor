@@ -1,14 +1,27 @@
 from time import time
 from unittest import result
+import chardet
 import requests
+import re
 
 #to do :
-#Add linkFinder(number of links to follow) function
+#Add crawler function
 
 print('-----------\nPersian Word Extractor v.1.4\n-----------')
 
 def timeTaken(t1, t2):
     return str(round(t2 - t1, 2))
+
+# def crawler():
+#     srclist = open('./srclist.txt','r')
+#     l1 = srclist.read().split()
+#     for link in l1:
+#         content = requests.get(link).content
+#         newLinks = re.findall(b"https://fa\.wikipedia\.org/.*\"", content)
+#         for newLink in newLinks:
+#             print(newLink.encode('utf8'))
+
+# crawler()
 
 def extractor(src):
     src = src.replace('ك','ک')
@@ -77,4 +90,4 @@ def asker():
     t2 = time()
     print("Operation took " + timeTaken(t1, t2) + " seconds to complete")
 
-asker()
+# asker()
