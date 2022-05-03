@@ -4,24 +4,53 @@ import chardet
 import requests
 import re
 
-#to do :
-#Add crawler function
-
 print('-----------\nPersian Word Extractor v.1.4\n-----------')
 
 def timeTaken(t1, t2):
     return str(round(t2 - t1, 2))
 
-# def crawler():
-#     srclist = open('./srclist.txt','r')
-#     l1 = srclist.read().split()
-#     for link in l1:
-#         content = requests.get(link).content
-#         newLinks = re.findall(b"https://fa\.wikipedia\.org/.*\"", content)
-#         for newLink in newLinks:
-#             print(newLink.encode('utf8'))
+def crawler(n):
+    n = int(n)
+    srclist = open('./srclist.txt','r')
+    l1 = srclist.read().split()
+    l2 = l1
 
-# crawler()
+    #while len(l2) > 0:
+        #l3 = []
+            #while(len(l2) > 0)
+            #content = requests.get(l2[0]).text
+            #l3 = re.findall("https:\/\/fa\.wikipedia\.org\/.*?\"", content)
+            #for link in l3:
+                #link = link.replace('"','')
+            #l2 -= l2[0]
+        #l1 += l3
+        #l2 = l3
+
+    while(len(l1) <= n):
+        l3 = []
+        while(len(l2) > 0):
+            content = requests.get(l2[0]).text
+            l3 = re.findall("https:\/\/fa\.wikipedia\.org\/.*?\"", content)
+            for link in l3:
+                link = link.replace('"','')
+            l2 -= l2[0]
+            # for link in l2:
+            #     content = requests.get(link).text
+            #     newLinks = re.findall("https:\/\/fa\.wikipedia\.org\/.*?\"", content)
+            #     for newLink in newLinks:
+            #         newLink = newLink.replace('"','')
+            #         print(newLink)
+            #         l2.append(newLink)
+        l1 += l3
+        l2 = l3
+        print(l1)
+
+    srclist.close()
+    srclist = open('./srclist.txt','a')
+    for link in l1:
+        srclist.write("\n" + link)
+
+crawler(10)
 
 def extractor(src):
     src = src.replace('ك','ک')
