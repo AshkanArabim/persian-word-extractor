@@ -4,7 +4,7 @@ import requests
 import re
 import copy
 
-print('-----------\nPersian Word Extractor v.1.4\n-----------')
+print('-----------\nPersian Word Extractor v.1.5\n-----------')
 
 def amountExtracted():
     output = open('output.txt', 'r')
