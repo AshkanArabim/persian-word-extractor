@@ -4,7 +4,11 @@ import requests
 import re
 import copy
 
-print('-----------\nPersian Word Extractor v.1.5\n-----------')
+#To do:
+#Add wikipedia relative links (eg. /wiki/...) to regex
+#Bugfix: extractor not extracting words when too many links generated
+
+print('-----------\nPersian Word Extractor v0.5\n-----------')
 
 def amountExtracted():
     output = open('output.txt', 'r')
