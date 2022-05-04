@@ -1,8 +1,7 @@
 from time import time
-from unittest import result
-import chardet
 import requests
 import re
+import copy
 
 print('-----------\nPersian Word Extractor v.1.4\n-----------')
 
@@ -13,44 +12,33 @@ def crawler(n):
     n = int(n)
     srclist = open('./srclist.txt','r')
     l1 = srclist.read().split()
-    l2 = l1
-
-    #while len(l2) > 0:
-        #l3 = []
-            #while(len(l2) > 0)
-            #content = requests.get(l2[0]).text
-            #l3 = re.findall("https:\/\/fa\.wikipedia\.org\/.*?\"", content)
-            #for link in l3:
-                #link = link.replace('"','')
-            #l2 -= l2[0]
-        #l1 += l3
-        #l2 = l3
+    l2 = copy.copy(l1)
+    srclist.close()
+    print("length of initial l1 is: " + str(len(l1)))
 
     while(len(l1) <= n):
         l3 = []
+
         while(len(l2) > 0):
             content = requests.get(l2[0]).text
-            l3 = re.findall("https:\/\/fa\.wikipedia\.org\/.*?\"", content)
-            for link in l3:
-                link = link.replace('"','')
-            l2 -= l2[0]
-            # for link in l2:
-            #     content = requests.get(link).text
-            #     newLinks = re.findall("https:\/\/fa\.wikipedia\.org\/.*?\"", content)
-            #     for newLink in newLinks:
-            #         newLink = newLink.replace('"','')
-            #         print(newLink)
-            #         l2.append(newLink)
+            l3 += re.findall("https:\/\/fa\.wikipedia\.org\/.*?\"", content)
+            l2.pop(0)
+        
+        print("length of old l1 is: " + str(len(l1)))        
         l1 += l3
-        l2 = l3
-        print(l1)
+        l2 = copy.copy(l3)
 
-    srclist.close()
-    srclist = open('./srclist.txt','a')
+    print("length of l3 is: " + str(len(l3)))
+    print("length of l1 is: " + str(len(l1)))
     for link in l1:
-        srclist.write("\n" + link)
+        link = link.replace('"', '')
+        print(link)
 
-crawler(10)
+    l1 = set(l1)
+
+    srclist = open('./srclist.txt','w')
+    for link in l1:
+        srclist.write(link + "\n")
 
 def extractor(src):
     src = src.replace('ك','ک')
