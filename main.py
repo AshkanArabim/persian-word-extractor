@@ -1,9 +1,15 @@
 from time import time
+from click import prompt
 import requests
 import re
 import copy
 
 print('-----------\nPersian Word Extractor v.1.4\n-----------')
+
+def amountExtracted():
+    output = open('output.txt', 'r')
+    length = len(set(output.read().split()))
+    return (str(length) + ' words extracted')
 
 def timeTaken(t1, t2):
     return str(round(t2 - t1, 2))
@@ -13,12 +19,11 @@ def crawler(n):
     srclist = open('./srclist.txt','r')
     l1 = srclist.read().split()
     l2 = copy.copy(l1)
+    l3 = []
     srclist.close()
-    print("length of initial l1 is: " + str(len(l1)))
+    print("srclist.txt has " + str(len(l1)) + " links initially")
 
     while(len(l1) <= n):
-        l3 = []
-
         while(len(l2) > 0):
             content = requests.get(l2[0]).text
             l3 += re.findall("https:\/\/fa\.wikipedia\.org\/.*?\"", content)
@@ -89,12 +94,13 @@ def srcWriter():
 def srcReader():
     return open('source.txt' , encoding='UTF-8').read()
 
-results = open('output.txt','w', encoding='UTF-8')
-
 def asker():
-    srcAnswer = input('Choose source origin: \n  online (from links in srclist.txt) \n  offline (source.txt file in root directory) \n>> ')
+    results = open('output.txt','w', encoding='UTF-8')
+    srcAnswer = input('Choose source origin: \n  online (builds a link-tree from initial fa.wikipedia.org link) \n  offline (source.txt file in root directory) \n>> ')
     t1 = time()
     if srcAnswer == 'online':
+        linkAmount = prompt("Minimum generated link amount number: \n>>")
+        crawler(linkAmount)
         srcWriter()
         results.write(extractor(srcReader()))
     elif srcAnswer == 'offline':
@@ -102,9 +108,8 @@ def asker():
     else:
         print('That is not a valid option. Abort.')
         exit()
-
-    print('Words extracted successfully. Check output.txt')
     t2 = time()
     print("Operation took " + timeTaken(t1, t2) + " seconds to complete")
 
-# asker()
+asker()
+print(amountExtracted())
