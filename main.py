@@ -51,12 +51,7 @@ def crawler(n):
         srclist.write(link + "\n")
 
 def extractor(src):
-    smolSrc = ''
     src = src.replace('ك','ک')
-    # for x in src:
-    #     if x in {'ا','ب','پ','ت','ث','ج','چ','ح','خ','د','ذ','ر','ز','ژ','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ک','گ','ل','م','ن','و','ه','ی','آ','أ','إ','ؤ','ئ','ء','ٌ','ٍ','ً','ُ','ِ','َ','ّ',' '}:
-    #         smolSrc += x
-    #         print('added ' + x + ' to memory')
     src = re.sub("[^ابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیؤئء\sًٌٍَُِّ]+", " ", src)
 
     print('splitting words...')
@@ -79,9 +74,7 @@ def extractor(src):
         wordset.remove(x)
     print('done')
 
-    #testing
     print(src)
-    #testing
 
     print('counting duplicates...')
     out = []
