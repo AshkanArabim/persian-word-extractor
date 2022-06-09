@@ -3,7 +3,6 @@ from click import prompt
 import requests
 import re
 import copy
-import gc
 
 #To do:
 #Add wikipedia relative links (eg. /wiki/...) to regex
@@ -51,11 +50,12 @@ def crawler(n):
         srclist.write(link + "\n")
 
 def extractor(src):
-    src = src.replace('ك','ک')
-    src = re.sub("[^ابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیؤئء\sًٌٍَُِّ]+", " ", src)
+    src = src.replace('ك','ک').replace('‌',' ')
+    src = re.sub("[^اآبپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیؤئء\sًٌٍَُِّ]+", " ", src)
 
     print('splitting words...')
     splitted = src.split()
+    print('done.')
 
     print('removing duplicates...')
     wordset = set(splitted)
