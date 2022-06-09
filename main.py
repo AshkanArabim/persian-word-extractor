@@ -6,7 +6,7 @@ import copy
 
 #To do:
 #Add wikipedia relative links (eg. /wiki/...) to regex
-#Bugfix: extractor not extracting words when too many links generated
+#Bugfix: extractor not extracting words when too many links generated 
 
 print('-----------\nPersian Word Extractor v0.5\n-----------')
 
@@ -54,10 +54,17 @@ def extractor(src):
     for x in src:
         if x not in {'ا','ب','پ','ت','ث','ج','چ','ح','خ','د','ذ','ر','ز','ژ','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ک','گ','ل','م','ن','و','ه','ی','آ','أ','إ','ؤ','ئ','ء','ٌ','ٍ','ً','ُ','ِ','َ','ّ',' '}:
             src = src.replace(x,' ')
+            print('removed character: ' + x)
 
+    print('splitting words...')
     splitted = src.split()
+
+    print('removing duplicates...')
     wordset = set(splitted)
+    print('done.')
+
     rm = []
+    print('removing accented words...')
     for x in wordset:
         if len(x) == 1 :
             rm.append(x)
@@ -67,22 +74,28 @@ def extractor(src):
     rm = set(rm)
     for x in rm:
         wordset.remove(x)
+    print('done')
 
+    print('counting duplicates...')
     out = []
     for x in wordset:
         out.append((x,splitted.count(x)))
+    print('done.')
 
+    print('sorting by frequency...')
     def num(e):
         return e[1]
     out.sort(reverse= True ,key= num)
+    print('done.')
 
+    print('writing to output.txt...')
     output = ''
-
     n = 0
     for x in out:
         output += (str(list(out)[n][0]) + "\n")
         n += 1
-    
+    print('done.')
+
     return output
 
 def srcWriter():
@@ -91,7 +104,7 @@ def srcWriter():
     open('source.txt','w').close()
     for link in url:
         content = requests.get(link).content
-        with open("source.txt", 'wb') as f:
+        with open("source.txt", 'ab') as f:
             f.write(content)
         print("Added %s to source.txt"%link)
 
@@ -103,7 +116,7 @@ def asker():
     srcAnswer = input('Choose source origin: \n  online (builds a link-tree from initial fa.wikipedia.org link) \n  offline (source.txt file in root directory) \n>> ')
     t1 = time()
     if srcAnswer == 'online':
-        linkAmount = prompt("Minimum generated link amount number: \n>>")
+        linkAmount = prompt("Minimum number of generated links: \n>>")
         crawler(linkAmount)
         srcWriter()
         results.write(extractor(srcReader()))
