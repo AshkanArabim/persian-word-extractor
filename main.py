@@ -6,7 +6,6 @@ import copy
 
 #To do:
 #Add wikipedia relative links (eg. /wiki/...) to regex
-#Bugfix: extractor not extracting words when too many links generated 
 
 print('-----------\nPersian Word Extractor v0.5\n-----------')
 
@@ -30,18 +29,12 @@ def crawler(n):
     while(len(l1) <= n):
         while(len(l2) > 0):
             content = requests.get(l2[0]).text
-            l3 += re.findall("https:\/\/fa\.wikipedia\.org\/.*?\"", content)
+            l3 += re.findall("(?<=\")https:\/\/fa\.wikipedia\.org\/wiki\/[^\"]*", content)
             l2.pop(0)
         
-        print("length of old l1 is: " + str(len(l1)))        
+        print("length of old l1 is: " + str(l1))        
         l1 += l3
         l2 = copy.copy(l3)
-
-    print("length of l3 is: " + str(len(l3)))
-    print("length of l1 is: " + str(len(l1)))
-    for link in l1:
-        link = link.replace('"', '')
-        print(link)
 
     l1 = set(l1)
 
@@ -73,8 +66,6 @@ def extractor(src):
     for x in rm:
         wordset.remove(x)
     print('done')
-
-    print(src)
 
     print('counting duplicates...')
     out = []
