@@ -3,6 +3,7 @@ from click import prompt
 import requests
 import re
 import copy
+import gc
 
 #To do:
 #Add wikipedia relative links (eg. /wiki/...) to regex
@@ -50,14 +51,17 @@ def crawler(n):
         srclist.write(link + "\n")
 
 def extractor(src):
+    smolSrc = ''
     src = src.replace('ك','ک')
     for x in src:
-        if x not in {'ا','ب','پ','ت','ث','ج','چ','ح','خ','د','ذ','ر','ز','ژ','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ک','گ','ل','م','ن','و','ه','ی','آ','أ','إ','ؤ','ئ','ء','ٌ','ٍ','ً','ُ','ِ','َ','ّ',' '}:
-            src = src.replace(x,' ')
-            print('removed character: ' + x)
+        if x in {'ا','ب','پ','ت','ث','ج','چ','ح','خ','د','ذ','ر','ز','ژ','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ک','گ','ل','م','ن','و','ه','ی','آ','أ','إ','ؤ','ئ','ء','ٌ','ٍ','ً','ُ','ِ','َ','ّ',' '}:
+            smolSrc += x
+            print('added ' + x + ' to memory')
+    del src
+    gc.collect()
 
     print('splitting words...')
-    splitted = src.split()
+    splitted = smolSrc.split()
 
     print('removing duplicates...')
     wordset = set(splitted)
