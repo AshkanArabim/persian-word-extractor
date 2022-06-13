@@ -1,4 +1,5 @@
 from time import time
+from urllib import response
 from click import prompt
 import requests
 import re
@@ -6,6 +7,10 @@ import copy
 
 #To do:
 #Add wikipedia relative links (eg. /wiki/...) to regex
+#More sorting efficiency
+#Add not sorted mode
+#multithreading
+#warning to erase output
 
 print('-----------\nPersian Word Extractor v0.5\n-----------')
 
@@ -59,7 +64,7 @@ def extractor(src):
     for x in wordset:
         if len(x) == 1 :
             rm.append(x)
-        for z in ['ْ','ٌ','ٍ','ً','ُ','ِ','َ','ّ']:
+        for z in ['ْ','ٌ','ٍ','ً','ُ','ِ','َ']:
             if z in x:
                 rm.append(x)
     rm = set(rm)
@@ -103,7 +108,18 @@ def srcReader():
     return open('source.txt' , encoding='UTF-8').read()
 
 def asker():
-    results = open('output.txt','w', encoding='UTF-8')
+    results = open('output.txt', 'r', encoding='UTF-8')
+    if results:
+        toErase = input("'output.txt' is not empty, would you like to erase its contents? (yes/no) ")
+        if toErase == 'yes':
+            results = open('output.txt','w', encoding='UTF-8')
+        elif toErase == 'no':
+            print('Refusal to erase output.txt. Abort.')
+            exit()
+        else:
+            print('Invalid response. Abort.')
+            exit()
+            
     srcAnswer = input('Choose source origin: \n  online (builds a link-tree from initial fa.wikipedia.org link) \n  offline (source.txt file in root directory) \n>> ')
     t1 = time()
     if srcAnswer == 'online':
@@ -114,7 +130,7 @@ def asker():
     elif srcAnswer == 'offline':
         results.write(extractor(srcReader()))
     else:
-        print('That is not a valid option. Abort.')
+        print('Invalid response. Abort.')
         exit()
     t2 = time()
     print("Operation took " + timeTaken(t1, t2) + " seconds to complete")
