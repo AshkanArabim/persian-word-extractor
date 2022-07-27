@@ -72,27 +72,47 @@ def extractor(src):
         wordset.remove(x)
     print('done')
 
-    print('counting duplicates...')
-    out = []
-    for x in wordset:
-        out.append((x,splitted.count(x)))
-    print('done.')
+    sortBy = prompt('Sort by:\n1-frequency\n2-alphabetic order\n> (1/2) ')
+    if (sortBy == "1"):
+        sortHolder = []
+        print('counting duplicates...')
+        for x in wordset:
+            sortHolder.append((x,splitted.count(x)))
+        print('done.')
 
-    print('sorting by frequency...')
-    def num(e):
-        return e[1]
-    out.sort(reverse= True ,key= num)
-    print('done.')
+        print('sorting by frequency...')
+        def num(e):
+            return e[1]
+        sortHolder.sort(reverse= True ,key= num)
+        print('done.')
 
+        out = []
+        for x in sortHolder:
+            out.append(sortHolder[0])
+
+        return out
+        
+    elif (sortBy == "2"):
+        print('sorting alphabetically...')
+        splitted.sort()
+        print('done')
+        return splitted
+
+    else:
+        print('Invalid response. Abort')
+        exit()
+
+def listToText(inputlist):
     print('writing to output.txt...')
     output = ''
+
     n = 0
-    for x in out:
-        output += (str(list(out)[n][0]) + "\n")
+    for x in inputlist:
+        output += (str(x) + "\n")
         n += 1
     print('done.')
 
-    return output
+    return output        
 
 def srcWriter():
     srclist = open('srclist.txt','r').read()
@@ -129,15 +149,15 @@ def asker():
         results = open('output.txt','w', encoding='UTF-8')
 
 
-    srcAnswer = input('Choose source origin: \n  online (builds a link-tree from initial fa.wikipedia.org link) \n  offline (source.txt file in root directory) \n>> ')
+    srcAnswer = input('Choose source origin: \n  online (builds a link-tree from initial fa.wikipedia.org link) \n  offline (source.txt file in root directory) \n> ')
     t1 = time()
     if srcAnswer == 'online':
         linkAmount = prompt("Minimum number of generated links: \n>>")
         crawler(linkAmount)
         srcWriter()
-        results.write(extractor(srcReader()))
+        results.write(listToText(extractor(srcReader())))
     elif srcAnswer == 'offline':
-        results.write(extractor(srcReader()))
+        results.write(listToText(extractor(srcReader())))
     else:
         print('Invalid response. Abort.')
         exit()
