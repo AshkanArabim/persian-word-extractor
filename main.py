@@ -5,13 +5,6 @@ import requests
 import re
 import copy
 
-#To do:
-#Add wikipedia relative links (eg. /wiki/...) to regex
-#More sorting efficiency
-#Add not sorted mode
-#multithreading
-#warning to erase output
-
 print('-----------\nPersian Word Extractor v0.5\n-----------')
 
 def amountExtracted():
@@ -135,7 +128,7 @@ def asker():
     try:
         results = open('output.txt', 'r', encoding='UTF-8')
         if results:
-            toErase = input("'output.txt' is not empty, would you like to erase its contents? (yes/no) ")
+            toErase = input("'output.txt' is not empty, would you like to erase its contents?\n> (yes/no) ")
             if toErase == 'yes':
                 results = open('output.txt','w', encoding='UTF-8')
             elif toErase == 'no':
@@ -152,7 +145,7 @@ def asker():
     srcAnswer = input('Choose source origin: \n  online (builds a link-tree from initial fa.wikipedia.org link) \n  offline (source.txt file in root directory) \n> ')
     t1 = time()
     if srcAnswer == 'online':
-        linkAmount = prompt("Minimum number of generated links: \n>>")
+        linkAmount = prompt("Minimum number of generated links: \n> ")
         crawler(linkAmount)
         srcWriter()
         results.write(listToText(extractor(srcReader())))
