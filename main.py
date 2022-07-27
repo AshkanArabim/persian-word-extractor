@@ -77,11 +77,14 @@ def extractor(src):
         def num(e):
             return e[1]
         sortHolder.sort(reverse= True ,key= num)
+        print(sortHolder)
         print('done.')
 
         out = []
         for x in sortHolder:
-            out.append(sortHolder[0])
+            # fix this error
+            print(str(sortHolder[x])) 
+            out.append(sortHolder[x][0])
 
         return out
         
@@ -101,11 +104,11 @@ def listToText(inputlist):
 
     n = 0
     for x in inputlist:
-        output += (str(x) + "\n")
+        output += ('"' + str(x) + '"' + ";\n")
         n += 1
     print('done.')
 
-    return output        
+    return output
 
 def srcWriter():
     srclist = open('srclist.txt','r').read()
