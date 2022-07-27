@@ -105,7 +105,11 @@ def srcWriter():
         print("Added %s to source.txt"%link)
 
 def srcReader():
-    return open('source.txt' , encoding='UTF-8').read()
+    try:
+        return open('source.txt' , encoding='UTF-8').read()
+    except FileNotFoundError:
+        print('source.txt not found, abort.')
+        exit()
 
 def asker():
     try:
