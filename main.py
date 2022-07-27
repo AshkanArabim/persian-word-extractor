@@ -77,14 +77,11 @@ def extractor(src):
         def num(e):
             return e[1]
         sortHolder.sort(reverse= True ,key= num)
-        print(sortHolder)
         print('done.')
 
         out = []
         for x in sortHolder:
-            # fix this error
-            print(str(sortHolder[x])) 
-            out.append(sortHolder[x][0])
+            out.append(x[0])
 
         return out
         
