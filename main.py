@@ -108,18 +108,23 @@ def srcReader():
     return open('source.txt' , encoding='UTF-8').read()
 
 def asker():
-    results = open('output.txt', 'r', encoding='UTF-8')
-    if results:
-        toErase = input("'output.txt' is not empty, would you like to erase its contents? (yes/no) ")
-        if toErase == 'yes':
-            results = open('output.txt','w', encoding='UTF-8')
-        elif toErase == 'no':
-            print('Refusal to erase output.txt. Abort.')
-            exit()
-        else:
-            print('Invalid response. Abort.')
-            exit()
-            
+    try:
+        results = open('output.txt', 'r', encoding='UTF-8')
+        if results:
+            toErase = input("'output.txt' is not empty, would you like to erase its contents? (yes/no) ")
+            if toErase == 'yes':
+                results = open('output.txt','w', encoding='UTF-8')
+            elif toErase == 'no':
+                print('Refusal to erase output.txt. Abort.')
+                exit()
+            else:
+                print('Invalid response. Abort.')
+                exit()
+    except FileNotFoundError:
+        print('output.txt not found, creating file...')
+        results = open('output.txt','w', encoding='UTF-8')
+
+
     srcAnswer = input('Choose source origin: \n  online (builds a link-tree from initial fa.wikipedia.org link) \n  offline (source.txt file in root directory) \n>> ')
     t1 = time()
     if srcAnswer == 'online':
