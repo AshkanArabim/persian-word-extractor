@@ -13,3 +13,7 @@ This script creates a list of unique words from Persian text. Words are sorted b
 3. Choose between offline (sourced from 'source.txt') or online (builds a list of fa.wikipedia.org links from initial link) mode.
 4. Follow CLI instructions.
 5. Results will be written to 'output.txt' in root directory.
+
+
+
+**Feel free to tweak the code to suit your needs.**
