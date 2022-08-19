@@ -15,30 +15,30 @@ def amountExtracted():
 def timeTaken(t1, t2):
     return str(round(t2 - t1, 2))
 
-def crawler(n):
-    n = int(n)
-    srclist = open('./srclist.txt','r')
-    l1 = srclist.read().split()
-    l2 = copy.copy(l1)
-    l3 = []
-    srclist.close()
-    print("srclist.txt has " + str(len(l1)) + " links initially")
+# def crawler(n):
+#     n = int(n)
+#     srclist = open('./srclist.txt','r')
+#     l1 = srclist.read().split()
+#     l2 = copy.copy(l1)
+#     l3 = []
+#     srclist.close()
+#     print("srclist.txt has " + str(len(l1)) + " links initially")
 
-    while(len(l1) <= n):
-        while(len(l2) > 0):
-            content = requests.get(l2[0]).text
-            l3 += re.findall("(?<=\")https:\/\/fa\.wikipedia\.org\/wiki\/[^\"]*", content)
-            l2.pop(0)
+#     while(len(l1) <= n):
+#         while(len(l2) > 0):
+#             content = requests.get(l2[0]).text
+#             l3 += re.findall("(?<=\")https:\/\/fa\.wikipedia\.org\/wiki\/[^\"]*", content)
+#             l2.pop(0)
         
-        print("length of old l1 is: " + str(l1))        
-        l1 += l3
-        l2 = copy.copy(l3)
+#         print("length of old l1 is: " + str(l1))
+#         l1 += l3
+#         l2 = copy.copy(l3)
 
-    l1 = set(l1)
+#     l1 = set(l1)
 
-    srclist = open('./srclist.txt','w')
-    for link in l1:
-        srclist.write(link + "\n")
+#     srclist = open('./srclist.txt','w')
+#     for link in l1:
+#         srclist.write(link + "\n")
 
 def extractor(src):
     src = src.replace('ك','ک').replace('‌',' ')
@@ -142,18 +142,19 @@ def asker():
         results = open('output.txt','w', encoding='UTF-8')
 
 
-    srcAnswer = input('Choose source origin: \n  online (builds a link-tree from initial fa.wikipedia.org link) \n  offline (source.txt file in root directory) \n> ')
+    # srcAnswer = input('Choose source origin: \n  online (builds a link-tree from initial fa.wikipedia.org link) \n  offline (source.txt file in root directory) \n> ')
     t1 = time()
-    if srcAnswer == 'online':
-        linkAmount = prompt("Minimum number of generated links: \n> ")
-        crawler(linkAmount)
-        srcWriter()
-        results.write(listToText(extractor(srcReader())))
-    elif srcAnswer == 'offline':
-        results.write(listToText(extractor(srcReader())))
-    else:
-        print('Invalid response. Abort.')
-        exit()
+    # if srcAnswer == 'online':
+    #     linkAmount = prompt("Minimum number of generated links: \n> ")
+    #     crawler(linkAmount)
+    #     srcWriter()
+    #     results.write(listToText(extractor(srcReader())))
+    # elif srcAnswer == 'offline':
+    verifyAnswer = input('Do you want to verify the words using vajehyab.com?')
+    results.write(listToText(extractor(srcReader())))
+    # else:
+    #     print('Invalid response. Abort.')
+    #     exit()
     t2 = time()
     print("Operation took " + timeTaken(t1, t2) + " seconds to complete")
 
