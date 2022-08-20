@@ -1,10 +1,7 @@
 from time import time
-from urllib import response
 from click import prompt
 import requests
 import re
-import copy
-from bs4 import BeautifulSoup
 import requests
 
 
@@ -17,31 +14,6 @@ def amountExtracted():
 
 def timeTaken(t1, t2):
     return str(round(t2 - t1, 2))
-
-# def crawler(n):
-#     n = int(n)
-#     srclist = open('./srclist.txt','r')
-#     l1 = srclist.read().split()
-#     l2 = copy.copy(l1)
-#     l3 = []
-#     srclist.close()
-#     print("srclist.txt has " + str(len(l1)) + " links initially")
-
-#     while(len(l1) <= n):
-#         while(len(l2) > 0):
-#             content = requests.get(l2[0]).text
-#             l3 += re.findall("(?<=\")https:\/\/fa\.wikipedia\.org\/wiki\/[^\"]*", content)
-#             l2.pop(0)
-        
-#         print("length of old l1 is: " + str(l1))
-#         l1 += l3
-#         l2 = copy.copy(l3)
-
-#     l1 = set(l1)
-
-#     srclist = open('./srclist.txt','w')
-#     for link in l1:
-#         srclist.write(link + "\n")
 
 def extractor(src):
     src = src.replace('ك','ک').replace('‌',' ')
@@ -90,9 +62,9 @@ def extractor(src):
         
     elif (sortBy == "2"):
         print('sorting alphabetically...')
-        splitted.sort()
-        print('done')
-        return splitted
+        sorted = list(wordset)
+        sorted.sort()
+        return sorted
 
     else:
         print('Invalid response. Abort')
@@ -129,6 +101,8 @@ def srcReader():
 
 def verifier(list):
     trash = []
+    print('list is:')
+    print(list)
     for word in list:
         url = requests.get('https://vajehyab.com/?q=' + word)
         pageContent = url.text
