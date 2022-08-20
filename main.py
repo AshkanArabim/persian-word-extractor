@@ -4,6 +4,9 @@ from click import prompt
 import requests
 import re
 import copy
+from bs4 import BeautifulSoup
+import requests
+
 
 print('-----------\nPersian Word Extractor v0.5\n-----------')
 
@@ -124,14 +127,26 @@ def srcReader():
         print('source.txt not found, abort.')
         exit()
 
+def verifier(list):
+    for word in list:
+        print(word)
+        url = requests.get('https://vajehyab.com/?q=' + word)
+        pageContent = url.text
+        resultsCount = pageContent.count('<span>جست‌وجوی دقیق</span>')
+        print(resultsCount)
+        if resultsCount == 0:
+            print('THIS WORD IS GAE!!!! ----> ' + word)
+            list.remove(word)
+    return list
+
 def asker():
     try:
         results = open('output.txt', 'r', encoding='UTF-8')
         if results:
-            toErase = input("'output.txt' is not empty, would you like to erase its contents?\n> (yes/no) ")
-            if toErase == 'yes':
+            toErase = input("'output.txt' is not empty, would you like to erase its contents?\n> (y/n) ")
+            if toErase == 'y':
                 results = open('output.txt','w', encoding='UTF-8')
-            elif toErase == 'no':
+            elif toErase == 'n':
                 print('Refusal to erase output.txt. Abort.')
                 exit()
             else:
@@ -140,21 +155,17 @@ def asker():
     except FileNotFoundError:
         print('output.txt not found, creating file...')
         results = open('output.txt','w', encoding='UTF-8')
-
-
-    # srcAnswer = input('Choose source origin: \n  online (builds a link-tree from initial fa.wikipedia.org link) \n  offline (source.txt file in root directory) \n> ')
     t1 = time()
-    # if srcAnswer == 'online':
-    #     linkAmount = prompt("Minimum number of generated links: \n> ")
-    #     crawler(linkAmount)
-    #     srcWriter()
-    #     results.write(listToText(extractor(srcReader())))
-    # elif srcAnswer == 'offline':
-    verifyAnswer = input('Do you want to verify the words using vajehyab.com?')
-    results.write(listToText(extractor(srcReader())))
-    # else:
-    #     print('Invalid response. Abort.')
-    #     exit()
+
+    verifyAnswer = input('Do you want to verify the words using vajehyab.com?\n> (y/n) ')
+    if verifyAnswer == 'y':
+        results.write(listToText(verifier(extractor(srcReader()))))
+    elif verifyAnswer == 'n':
+        results.write(listToText(extractor(srcReader())))
+    else:
+        print('Not a valid option. Abort.')
+        exit()
+
     t2 = time()
     print("Operation took " + timeTaken(t1, t2) + " seconds to complete")
 
