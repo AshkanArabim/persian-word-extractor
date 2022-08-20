@@ -128,15 +128,18 @@ def srcReader():
         exit()
 
 def verifier(list):
+    trash = []
     for word in list:
-        print(word)
         url = requests.get('https://vajehyab.com/?q=' + word)
         pageContent = url.text
         resultsCount = pageContent.count('<span>جست‌وجوی دقیق</span>')
-        print(resultsCount)
         if resultsCount == 0:
-            print('THIS WORD IS GAE!!!! ----> ' + word)
-            list.remove(word)
+            print('WRONG WORD:' + word)
+            trash.append(word)
+        else:
+            print(word + 'is correct')
+    for word in trash:
+        list.remove(word)
     return list
 
 def asker():
