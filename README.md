@@ -14,3 +14,6 @@ This script creates a list of unique words from Persian text. Words are sorted b
 5. Results will be written to 'output.txt' in root directory.
 
 **Feel free to tweak the code to suit your needs.**
+
+## How did I use it?
+I ran this script on a large body of Persian text to extract words for contribution to (https://monkeytype.com)[Monkeytype]. I added the "Persian 1k" & "Persian 5k" tests. My first open-source contribution!!
